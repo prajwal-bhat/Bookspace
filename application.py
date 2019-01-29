@@ -51,6 +51,7 @@ def signup():
 
 @app.route("/login", methods=["POST","GET"])
 def login():
+    session.clear()
     if request.method=="GET":
         return render_template("login.html")
     else:
@@ -61,15 +62,20 @@ def login():
         h=hashlib.md5(db_password.encode())
         h=h.hexdigest()
         checkpassword = db.execute(f"SELECT password FROM users WHERE username = '{username}'").fetchone()
-        if h!=checkpassword:
-            flash("Please enter the correct password")
+        if h in checkpassword:
+            flash("Please enter the correct passd")
             return redirect(url_for("login"))
+        session["username"]=username
         flash("Successfully Logged In")
         return redirect(url_for("index"))
 
 
-#postgres://mwrxluqitxdiod:31c78054bc4f15c4a2f8f4a4bfecb9f92356548bc9d241a0f380ab1c8b5c7d5a@ec2-54-227-246-152.compute-1.amazonaws.com:5432/d62vu3sdajlb18
+@app.route("/logout")
+def logout():
+    session.clear()
+    redirect(url_for("login"))
 
+#postgres://lcglhurepowqxw:04cf0b1ef9f5c99f3f0fc53b3d55225f451dbf843de53b279b507bb753d86a28@ec2-54-225-89-195.compute-1.amazonaws.com:5432/dai06lbnt1qrjj
 
 if __name__=="__main__":
     app.run()
