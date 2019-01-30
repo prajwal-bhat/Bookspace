@@ -141,7 +141,6 @@ def logout():
     session.clear()
     redirect(url_for("login"))
 
-#postgres://lcglhurepowqxw:04cf0b1ef9f5c99f3f0fc53b3d55225f451dbf843de53b279b507bb753d86a28@ec2-54-225-89-195.compute-1.amazonaws.com:5432/dai06lbnt1qrjj
 
 if __name__=="__main__":
     app.run()
