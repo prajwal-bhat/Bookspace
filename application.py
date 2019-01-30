@@ -60,10 +60,11 @@ def login():
         salt="5gz"
         db_password = user_password+salt
         h=hashlib.md5(db_password.encode())
-        h=h.hexdigest()
+        hpassword=h.hexdigest()
         checkpassword = db.execute(f"SELECT password FROM users WHERE username = '{username}'").fetchone()
-        if h in checkpassword:
-            flash("Please enter the correct passd")
+        if hpassword != checkpassword[0]:
+            print("Incorrect")
+            flash("Please enter the correct password")
             return redirect(url_for("login"))
         session["username"]=username
         flash("Successfully Logged In")
